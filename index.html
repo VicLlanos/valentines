@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>For my Valentine ‧₊˚✧ ﾟ.</title>
+    <!-- Google Fonts & Font Awesome for cute icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fff9f7 0%, #ffeae5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 12px;
+            margin: 0;
+        }
+
+        .main-container {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 245, 240, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 20px 40px rgba(180, 100, 100, 0.15);
+            padding: 30px 20px 40px;
+            border: 2px solid rgba(255, 220, 210, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        /* proposal section */
+        .proposal-card {
+            text-align: center;
+            padding: 16px 8px 24px;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #b3474b;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(255, 170, 170, 0.3);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .title i {
+            color: #e67a7a;
+            font-size: 2.2rem;
+        }
+
+        .valentine-question {
+            background: #ffe9e3;
+            padding: 18px 16px;
+            border-radius: 100px;
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #872d2d;
+            display: inline-block;
+            margin: 12px auto;
+            box-shadow: 0 6px 0 #dbb4ad;
+            border: 2px solid white;
+            letter-spacing: 1px;
+        }
+
+        .next-btn {
+            background: #ffb6b9;
+            border: none;
+            border-radius: 60px;
+            padding: 16px 42px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #4e2e2e;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin: 18px auto 10px;
+            box-shadow: 0 8px 0 #c06a6a, 0 12px 25px rgba(240, 128, 128, 0.5);
+            transition: 0.05s linear;
+            border: 2px solid #fff6f0;
+            cursor: pointer;
+        }
+
+        .next-btn:active {
+            transform: translateY(8px);
+            box-shadow: 0 2px 0 #c06a6a, 0 12px 25px rgba(240, 128, 128, 0.5);
+        }
+
+        /* flower bouquet grid — 12 flowers */
+        .bouquet-grid {
+            display: none; /* hidden until 'next' click */
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px 10px;
+            justify-content: center;
+            align-items: stretch;
+            margin: 24px 6px 16px;
+        }
+
+        .flower-item {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 18px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 15px -8px rgba(170, 100, 100, 0.2);
+            border: 2.5px solid rgba(255, 210, 200, 0.9);
+            transition: 0.2s ease;
+            cursor: pointer;
+        }
+
+        .flower-item:hover {
+            background: rgba(255, 240, 235, 0.9);
+            border-color: #f9ac9c;
+            transform: scale(1.02);
+        }
+
+        /* flower icons + variety */
+        .flower-icon {
+            font-size: 2.8rem;
+            line-height: 1;
+            margin-bottom: 6px;
+            filter: drop-shadow(2px 8px 8px rgba(200, 120, 140, 0.3));
+        }
+
+        .flower-name {
+            font-weight: 600;
+            color: #965a5a;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 240, 0.7);
+            padding: 5px 10px;
+            border-radius: 40px;
+            letter-spacing: 1px;
+            border: 1px solid #ffcfc0;
+            width: fit-content;
+            margin-top: 4px;
+        }
+
+        /* MODAL — elegant card */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(60, 30, 30, 0.2);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-card {
+            max-width: 400px;
+            width: 90%;
+            background: #fffcf9;
+            border-radius: 48px 20px 48px 20px;
+            padding: 32px 24px;
+            box-shadow: 0 30px 50px rgba(150, 70, 70, 0.25);
+            border: 3px solid #ffe2da;
+            position: relative;
+            animation: softAppear 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-bottom: 12px solid #fec5bb;
+        }
+
+        @keyframes softAppear {
+            0% { opacity: 0.5; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-flower-icon {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #d86b6b;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #944e4e;
+            margin-bottom: 20px;
+            border-bottom: 3px dashed #fbb1b1;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        .message-box {
+            background: #fff1ed;
+            padding: 24px 18px;
+            border-radius: 24px;
+            margin: 12px 0;
+            color: #583c3c;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 500;
+            box-shadow: inset 0 2px 10px rgba(255, 200, 200, 0.3);
+            text-align: left;
+            border: 2px solid white;
+        }
+
+        .close-modal {
+            background: #ffc2c2;
+            border: none;
+            border-radius: 60px;
+            padding: 14px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #633e3e;
+            margin-top: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 2px solid white;
+            box-shadow: 0 4px 0 #b28b8b;
+            transition: 0.05s linear;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .close-modal:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #b28b8b;
+        }
+
+        /* hidden class */
+        .hidden-proposal {
+            display: none;
+        }
+
+        .show-bouquet {
+            display: grid !important;
+        }
+
+        .hide-element {
+            display: none;
+        }
+
+        /* cute extra */
+        .tiny-note {
+            color: #b98080;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            font-style: italic;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        i {
+            color: #c27171;
+        }
+
+        /* mobile optimization */
+        @media (max-width: 450px) {
+            .main-container { padding: 20px 12px; }
+            .valentine-question { font-size: 1.4rem; }
+            .flower-icon { font-size: 2.2rem; }
+            .flower-item { padding: 14px 6px; }
+            .modal-card { padding: 24px 18px; }
+        }
+        /* flower special effects */
+        .fas.fa-heart, .far.fa-heart { color: #e68383; }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- ---------- PROPOSAL SECTION (visible first) ---------- -->
+        <div id="proposalSection" class="proposal-card">
+            <div class="title">
+                <i class="fas fa-envelope-open-text"></i>  My Love <i class="fas fa-heart"></i>
+            </div>
+            <div class="valentine-question">
+                💌 Can you be my valentine? 💌
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <button id="nextButton" class="next-btn">
+                    Next <i class="fas fa-arrow-right" style="font-size: 1.3rem;"></i>
+                </button>
+            </div>
+            <div class="tiny-note">
+                <i class="fas fa-sparkle"></i> click to reveal our bouquet <i class="fas fa-sparkle"></i>
+            </div>
+            <!-- subtle decorative -->
+            <div style="margin-top: 30px; color: #deb0aa; font-size: 1.2rem;">
+                <i class="fas fa-rose"></i>   <i class="fas fa-leaf"></i>   <i class="fas fa-hibiscus"></i>
+            </div>
+        </div>
+
+        <!-- ---------- BOUQUET OF 12 FLOWERS (hidden until next) ---------- -->
+        <div id="bouquetContainer" class="bouquet-grid">
+            <!-- Flower #1 : Rose -->
+            <div class="flower-item" data-flower="rose">
+                <div class="flower-icon">🌹</div>
+                <span class="flower-name">Red rose</span>
+            </div>
+            <!-- Flower #2 : Lily -->
+            <div class="flower-item" data-flower="lily">
+                <div class="flower-icon">🌸</div>
+                <span class="flower-name">Pink lily</span>
+            </div>
+            <!-- Flower #3 : Tulip -->
+            <div class="flower-item" data-flower="tulip">
+                <div class="flower-icon">🌷</div>
+                <span class="flower-name">Tulip</span>
+            </div>
+            <!-- Flower #4 : Sunflower -->
+            <div class="flower-item" data-flower="sunflower">
+                <div class="flower-icon">🌻</div>
+                <span class="flower-name">Sunflower</span>
+            </div>
+            <!-- Flower #5 : Daisy -->
+            <div class="flower-item" data-flower="daisy">
+                <div class="flower-icon">🌼</div>
+                <span class="flower-name">Daisy</span>
+            </div>
+            <!-- Flower #6 : Cherry Blossom -->
+            <div class="flower-item" data-flower="cherry">
+                <div class="flower-icon">🌸</div>
+                <span class="flower-name">Cherry</span>
+            </div>
+            <!-- Flower #7 : Lavender -->
+            <div class="flower-item" data-flower="lavender">
+                <div class="flower-icon">💜</div>
+                <span class="flower-name">Lavender</span>
+            </div>
+            <!-- Flower #8 : Orchid -->
+            <div class="flower-item" data-flower="orchid">
+                <div class="flower-icon">🌺</div>
+                <span class="flower-name">Orchid</span>
+            </div>
+            <!-- Flower #9 : Peony -->
+            <div class="flower-item" data-flower="peony">
+                <div class="flower-icon">🌿🌸</div>
+                <span class="flower-name">Peony</span>
+            </div>
+            <!-- Flower #10 : Hydrangea -->
+            <div class="flower-item" data-flower="hydrangea">
+                <div class="flower-icon">💮</div>
+                <span class="flower-name">Hydrangea</span>
+            </div>
+            <!-- Flower #11 : Gardenia -->
+            <div class="flower-item" data-flower="gardenia">
+                <div class="flower-icon">🌱🤍</div>
+                <span class="flower-name">Gardenia</span>
+            </div>
+            <!-- Flower #12 : Baby's Breath -->
+            <div class="flower-item" data-flower="babysbreath">
+                <div class="flower-icon">✨🌾</div>
+                <span class="flower-name">Baby's breath</span>
+            </div>
+        </div>
+
+        <!-- tiny caption after bouquet appears -->
+        <div id="bouquetCaption" style="display: none; text-align: center; margin-top: 12px; color: #ac6e6e; font-weight: 600;">
+            <i class="fas fa-heart"></i> tap any flower — each holds my promise <i class="fas fa-heart"></i>
+        </div>
+    </div>
+
+    <!-- ---------- MODAL overlays (hidden by default) ---------- -->
+    <div id="flowerModal" class="modal-overlay">
+        <div class="modal-card">
+            <div id="modalFlowerIcon" class="modal-flower-icon">🌹</div>
+            <div style="text-align: center;">
+                <span id="modalFlowerName" class="modal-title">Rose</span>
+            </div>
+            <div id="modalMessage" class="message-box">
+                <!-- dynamic message from JS -->
+            </div>
+            <button id="closeModalBtn" class="close-modal">
+                <i class="fas fa-heart"></i>  close  <i class="fas fa-heart"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // ---------- 12 reasons : why I love her & why I choose to be with her through thick and thin ----------
+            const flowerMessages = {
+                rose: {
+                    name: "Red Rose",
+                    message: "🌹 Like a classic red rose, my love for you is timeless. You are my first thought and my last prayer. Through every high and low, I choose you — because your heart is my home."
+                },
+                lily: {
+                    name: "Pink Lily",
+                    message: "🌸 You bring grace into my life. With you, even rainy days feel like a garden. I love your gentleness, and I promise to stand by you, through storms and sunshine, always."
+                },
+                tulip: {
+                    name: "Tulip",
+                    message: "🌷 You make my heart bloom. I love the way you understand me without words. Through thick and thin, I choose your laughter, your dreams, and every bit of you."
+                },
+                sunflower: {
+                    name: "Sunflower",
+                    message: "🌻 You are my sunlight. You turn my face toward hope. No matter what life brings, my commitment is to grow with you, always facing the light — together."
+                },
+                daisy: {
+                    name: "Daisy",
+                    message: "🌼 Pure and joyful, just like your soul. I love how you see beauty in small things. I choose to be with you through every season, because you make everything brighter."
+                },
+                cherry: {
+                    name: "Cherry Blossom",
+                    message: "🌸 Fragile yet fierce. Your strength amazes me. I love the fleeting moments with you become forever. In hardship and happiness, I'll be your safe branch."
+                },
+                lavender: {
+                    name: "Lavender",
+                    message: "💜 You calm my chaos. I love your quiet wisdom and the peace you bring. I choose to walk beside you through thick and thin — your presence is my serenity."
+                },
+                orchid: {
+                    name: "Orchid",
+                    message: "🌺 Exotic and rare — like your spirit. I admire your courage and softness. Through all of life's twists, I am yours, and I will cherish our unique love."
+                },
+                peony: {
+                    name: "Peony",
+                    message: "🌸🌸 Abundant and romantic. Loving you is the easiest thing I've ever done. I vow to protect our love and hold your hand through every joy and sorrow."
+                },
+                hydrangea: {
+                    name: "Hydrangea",
+                    message: "💮 Your heart is full of gratitude and grace. I love your thoughtfulness. I choose to be your partner in all things — because us against the world is my favorite story."
+                },
+                gardenia: {
+                    name: "Gardenia",
+                    message: "🤍 You represent purity and sweetness. I love your genuine soul. Through thick and thin, I'll never let you forget you're deeply loved, today and always."
+                },
+                babysbreath: {
+                    name: "Baby's Breath",
+                    message: "✨🌾 You are the delicate details that make life beautiful. I love the way you care. I will be your constant, your forever valentine, through every challenge and triumph."
+                }
+            };
+
+            // ---------- DOM elements ----------
+            const proposalSection = document.getElementById('proposalSection');
+            const nextBtn = document.getElementById('nextButton');
+            const bouquetGrid = document.getElementById('bouquetContainer');
+            const bouquetCaption = document.getElementById('bouquetCaption');
+            const modalOverlay = document.getElementById('flowerModal');
+            const modalIcon = document.getElementById('modalFlowerIcon');
+            const modalName = document.getElementById('modalFlowerName');
+            const modalMessage = document.getElementById('modalMessage');
+            const closeBtn = document.getElementById('closeModalBtn');
+
+            // ---------- Event: Click NEXT -> hide proposal, show bouquet, caption ----------
+            nextBtn.addEventListener('click', function() {
+                // hide proposal nicely
+                proposalSection.style.display = 'none';
+                // show bouquet grid (adding class)
+                bouquetGrid.classList.add('show-bouquet');
+                bouquetGrid.style.display = 'grid'; // ensure grid
+                bouquetCaption.style.display = 'block';
+            });
+
+            // ---------- Attach click event to all flower items (delegation) ----------
+            bouquetGrid.addEventListener('click', function(e) {
+                // find the closest .flower-item (the flower card)
+                const flowerItem = e.target.closest('.flower-item');
+                if (!flowerItem) return;
+
+                const flowerKey = flowerItem.dataset.flower; // e.g., 'rose', 'lily'...
+                if (flowerKey && flowerMessages[flowerKey]) {
+                    // get data
+                    const flowerData = flowerMessages[flowerKey];
+                    // set modal content
+                    modalIcon.innerHTML = flowerItem.querySelector('.flower-icon')?.innerHTML || '🌸';
+                    modalName.innerText = flowerData.name;
+                    modalMessage.innerText = flowerData.message;  // "why I love her & through thick and thin"
+                    // display modal
+                    modalOverlay.style.display = 'flex';
+                } else {
+                    // fallback if any flower not defined (just in case)
+                    modalIcon.innerHTML = '🌸';
+                    modalName.innerText = 'My flower';
+                    modalMessage.innerText = "I love you endlessly. Through thick and thin, I choose you. ❤️";
+                    modalOverlay.style.display = 'flex';
+                }
+            });
+
+            // ---------- close modal ----------
+            function closeModal() {
+                modalOverlay.style.display = 'none';
+            }
+
+            closeBtn.addEventListener('click', closeModal);
+
+            // click on overlay (background) to close modal as well
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+
+            // optional: touch/mobile optimization — prevent body scroll when modal open (but not necessary)
+            // but we can add small listener to prevent scrolling behind
+            modalOverlay.addEventListener('touchmove', function(e) {
+                if (e.target === modalOverlay) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            // Also, if the bouquet is visible and someone wants to see proposal again? but no need.
+            // initial state: bouquet hidden, caption hidden
+            bouquetGrid.style.display = 'none';
+            bouquetCaption.style.display = 'none';
+
+            // if user double clicks etc — all fine
+            // preload emoji compat
+
+            // also make modal close on escape key (nice)
+            window.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modalOverlay.style.display === 'flex') {
+                    closeModal();
+                }
+            });
+
+            // additional cuteness: heart hover animation tiny — but keep it simple
+        })();
+    </script>
+
+    <!-- subtle extra charm: floating hearts (purely decorative) -->
+    <div style="position: fixed; bottom: 10px; right: 15px; opacity: 0.3; font-size: 20px; color: #f0b0b0; pointer-events: none;">
+        <i class="fas fa-heart"></i> <i class="fas fa-heart"></i> <i class="fas fa-heart"></i>
+    </div>
+</body>
+</html>
